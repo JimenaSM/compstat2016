@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "mc.intervals <- function(Phi, N, X.dens=runif, alpha=0.05){\n  # FUN must be a function for which compute E(phi(X))\n  # X.dens must be a function from which draw X. Must be a function of the\n  # desired sample size.\n  # N is a vector which contains different sample sizes for our estimate.\n  # alpha determines the confidence intervals of level 1-alpha\n  # Loop part, run for each element of N\n  results.list <- lapply(N, function(nsim){\n    # MonteCarlo step\n    X <- sapply(FUN=X.dens, nsim) # N samples of the density of X\n    PhiX <- sapply(X, Phi) # Evaluate phi at each X_i\n    estim <- mean(PhiX) # Estimate of int_a^b \\phi(x)f(x)df=E[phi(X_i)]\n    S2 <- var(PhiX) # Estimate of the variance of phi(X_i)\n    quant <- qnorm(alpha/2, lower.tail=FALSE) # Right quantile for alpha/2\n    int.upper <- estim + sqrt(S2/nsim)*quant # Upper confidence interval\n    int.lower <- estim - sqrt(S2/nsim)*quant # Lower confidence interval\n    return(data.frame(N=nsim, Estimate=estim, LI=int.lower, UI=int.upper))\n    # -------\n  })\n  #\n  results.table <- ldply(results.list) # Assembles list in data.frame\n  return(results.table)\n}\n\nset.seed(110104)\nPhi <- function(x) 2*sqrt(4-x^2)\nX.dens <- function(nsim) runif(nsim, 0, 2)\nN <- seq(from=1000, to=10000, by=1000)\ndata <- mc.intervals(Phi=Phi, N=N, X.dens=X.dens)\ndata\n\nggplot(data, aes(x=N)) +\n  geom_ribbon(aes(ymin=LI, ymax=UI), fill=\"grey\", alpha=.4) +\n  geom_line(aes(y=Estimate), colour=\"blue\") +\n  geom_hline(aes(yintercept=pi) , colour=\"red\", linetype=\"dotted\", size=1)",
+    "created" : 1481593291577.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "1803447330",
+    "id" : "901A4489",
+    "lastKnownWriteTime" : 0,
+    "last_content_update" : 1481593584120,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled3"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

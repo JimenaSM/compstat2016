@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "y<-p14$pobreza_porcentaje\nx<-p14$pobreza_mod_porcentaje\n\npairs(y~x,data=p14, \n      main=\"Diagrama de dispersion\")\n",
+    "created" : 1481675446132.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "1147207763",
+    "id" : "789226AC",
+    "lastKnownWriteTime" : 0,
+    "last_content_update" : 1481675663237,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled4"
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
